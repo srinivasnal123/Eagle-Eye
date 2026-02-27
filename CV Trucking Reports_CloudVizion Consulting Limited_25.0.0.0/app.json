@@ -1,0 +1,25 @@
+{
+  "id": "d31c4f6e-fcb6-472e-9464-959d5f101ffa",
+  "name": "CV Trucking Reports",
+  "publisher": "CloudVizion Consulting Limited",
+  "version": "25.0.0.7",
+  "runtime": "15.0",
+  "target": "Cloud",
+  "application": "26.0.0.0",
+  "platform": "1.0.0.0",
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true,
+    "applyToDevExtension": false
+  },
+  "features": [
+    "NOIMPLICITWITH"
+  ],
+  "idRanges": [
+    {
+      "from": 60800,
+      "to": 60899
+    }
+  ]
+}

@@ -1,0 +1,236 @@
+page 80001 "EE Staged Purchased Headers"
+{
+    ApplicationArea = all;
+    SourceTable = "EE Purch. Header Staging";
+    UsageCategory = Lists;
+    Caption = 'Staged Purchase Headers';
+    Editable = false;
+    LinksAllowed = false;
+    PageType = List;
+    SourceTableView = sorting("Entry No.")order(descending);
+
+    layout
+    {
+        area(Content)
+        {
+            repeater(Line)
+            {
+                field("Entry No."; Rec."Entry No.")
+                {
+                    ApplicationArea = All;
+                }
+                field("Source Account"; Rec."Source Account")
+                {
+                    ApplicationArea = all;
+                }
+                field("Document No."; Rec."Document No.")
+                {
+                    ApplicationArea = all;
+                    ToolTip = 'Specifies the Document No. of the related Purchase Order that was created from the staging record.';
+
+                    trigger OnDrillDown()
+                    begin
+                        Rec.DocumentDrillDown();
+                    end;
+                }
+                field(id; Rec.id)
+                {
+                    ApplicationArea = All;
+                }
+                field(Lines; Rec.Lines)
+                {
+                    ApplicationArea = all;
+                }
+                field(supplier_name; Rec.supplier_name)
+                {
+                    ApplicationArea = All;
+                }
+                field(supplier_custom_id; Rec.supplier_custom_id)
+                {
+                    ApplicationArea = All;
+                }
+                field(recipient_name; Rec.recipient_name)
+                {
+                    ApplicationArea = All;
+                }
+                field(remit_to; Rec.remit_to)
+                {
+                    ApplicationArea = all;
+                }
+                field(remit_to_company_id; Rec.remit_to_company_id)
+                {
+                    ApplicationArea = all;
+                }
+                field(tag; Rec.tag)
+                {
+                    ApplicationArea = All;
+                }
+                field(status; Rec.status)
+                {
+                    ApplicationArea = All;
+                }
+                field(date_created; Rec.date_created)
+                {
+                    ApplicationArea = All;
+                }
+                field(date_opened; Rec.date_opened)
+                {
+                    ApplicationArea = All;
+                }
+                field(date_received; Rec.date_received)
+                {
+                    ApplicationArea = All;
+                }
+                field(date_closed; Rec.date_closed)
+                {
+                    ApplicationArea = All;
+                }
+                field(Created; Rec.Created)
+                {
+                    ApplicationArea = all;
+                }
+                field(Opened; Rec.Opened)
+                {
+                    ApplicationArea = all;
+                }
+                field(Received; Rec.Received)
+                {
+                    ApplicationArea = all;
+                }
+                field(Closed; Rec.Closed)
+                {
+                    ApplicationArea = all;
+                }
+                field(Imported; Rec.SystemCreatedAt)
+                {
+                    ApplicationArea = all;
+                    Caption = 'Imported At';
+                }
+                field("Imported By"; Rec."Imported By")
+                {
+                    ApplicationArea = all;
+                }
+                field(payment_term_days; Rec.payment_term_days)
+                {
+                    ApplicationArea = All;
+                }
+                field(invoice_number; Rec.invoice_number)
+                {
+                    ApplicationArea = All;
+                }
+                field(subtotal; Rec.subtotal)
+                {
+                    ApplicationArea = all;
+                }
+                field(tax_total; Rec.tax_total)
+                {
+                    ApplicationArea = all;
+                }
+                field(shipping_total; Rec.shipping_total)
+                {
+                    ApplicationArea = all;
+                }
+                field(other_total; Rec.other_total)
+                {
+                    ApplicationArea = all;
+                }
+                field(grand_total; Rec.grand_total)
+                {
+                    ApplicationArea = all;
+                }
+                field("Import Error"; Rec."Import Error")
+                {
+                    ApplicationArea = all;
+                }
+                field("Processed Error"; Rec."Processed Error")
+                {
+                    ApplicationArea = all;
+                }
+                field(Processed; Rec.Processed)
+                {
+                    ApplicationArea = all;
+                }
+                field("Error Message"; Rec."Error Message")
+                {
+                    ApplicationArea = all;
+                }
+            }
+        }
+    }
+    actions
+    {
+        area(Processing)
+        {
+            action("Show Error Message")
+            {
+                ApplicationArea = all;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Image = Error;
+                Enabled = not Rec.Processed;
+
+                trigger OnAction()
+                var
+                    FleetrockEntry: Record "EE Import/Export Entry";
+                begin
+                    if Rec."Error Message" = '' then begin
+                        FleetrockEntry.SetRange("Document Type", FleetrockEntry."Document Type"::"Purchase Order");
+                        FleetrockEntry.SetRange("Import Entry No.", Rec."Entry No.");
+                        FleetrockEntry.SetRange(Success, false);
+                        if FleetrockEntry.FindFirst()then FleetrockEntry.DisplayErrorMessage();
+                    end
+                    else
+                        Message(Rec."Error Message");
+                end;
+            }
+            action("Create Invoice")
+            {
+                ApplicationArea = all;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Image = Invoice;
+
+                trigger OnAction()
+                var
+                    PurchaseHeader: Record "Purchase Header";
+                    GetPurchaseOrders: Codeunit "EE Get Purchase Orders";
+                begin
+                    FleetrockMgt.CreatePurchaseOrder(Rec);
+                    PurchaseHeader.SetRange("Document Type", PurchaseHeader."Document Type"::Order);
+                    PurchaseHeader.SetRange("EE Fleetrock ID", Rec.id);
+                    PurchaseHeader.FindLast();
+                    Page.Run(Page::"Purchase Invoice", PurchaseHeader);
+                end;
+            }
+            action("Import Single Purchase Order")
+            {
+                ApplicationArea = all;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                Image = DocumentEdit;
+
+                trigger OnAction()
+                var
+                    FleetrockSetup: Record "EE Fleetrock Setup";
+                    GetDocNo: Page "EE Get Doc. No.";
+                    DocNo: Text;
+                begin
+                    FleetrockSetup.Get();
+                    GetDocNo.LookupMode(true);
+                    if GetDocNo.RunModal() <> Action::LookupOK then exit;
+                    DocNo:=GetDocNo.GetDocNo();
+                    if DocNo <> '' then if FleetrockSetup."Import Repairs as Purchases" then FleetrockMgt.GetAndImportRepairOrder(DocNo, false)
+                        else
+                            FleetrockMgt.GetAndImportPurchaseOrder(DocNo);
+                end;
+            }
+        }
+    }
+    var FleetrockMgt: Codeunit "EE Fleetrock Mgt.";
+}

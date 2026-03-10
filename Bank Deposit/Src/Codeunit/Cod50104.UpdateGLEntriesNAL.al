@@ -13,7 +13,7 @@ codeunit 50104 UpdateGLEntriesNAL
         SalesInvHeader: Record "Sales Invoice Header";
     begin
         GLEntry.SetFilter("EE FleetRock ID NAL", '');
-        GLEntry.SetFilter("Document Type", '%1', GLEntry."Document Type"::Invoice);
+        GLEntry.SetRange("Document Type", GLEntry."Document Type"::Invoice);
         if GLEntry.Find('-') then
             repeat
                 case GLEntry."Source Type" of

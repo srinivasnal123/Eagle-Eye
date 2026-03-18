@@ -1,4 +1,4 @@
-codeunit 50104 "Sales Line Desc. 2 Mgmt NAL"
+codeunit 50105 "Sales Line Desc. 2 Mgmt NAL"
 {
     Permissions = tabledata "G/L Entry" = RM;
 

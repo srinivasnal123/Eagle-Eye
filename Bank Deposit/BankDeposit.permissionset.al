@@ -5,5 +5,7 @@ permissionset 50102 "Bank Deposit"
         codeunit UpdateLoadNoNAL = X,
         codeunit GLEntrySubscriberNAL = X,
         codeunit UpdateGLEntriesNAL = X,
-        report "Update Load No NAL" = X;
+        report "Update Load No NAL" = X,
+        codeunit "Purch Line Desc. 2 Mgmt NAL" = X,
+        codeunit "Sales Line Desc. 2 Mgmt NAL" = X;
 }

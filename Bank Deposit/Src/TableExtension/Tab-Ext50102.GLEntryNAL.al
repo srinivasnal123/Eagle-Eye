@@ -7,5 +7,10 @@ tableextension 50102 GLEntryNAL extends "G/L Entry"
             Caption = 'EE FleetRock ID';
             DataClassification = ToBeClassified;
         }
+        field(50101; "Description 2 NAL"; Text[100])
+        {
+            Caption = 'Description 2 NAL';
+            DataClassification = ToBeClassified;
+        }
     }
 }

@@ -1,4 +1,4 @@
-codeunit 50103 "Purch Line Desc. 2 Mgmt NAL"
+codeunit 50106 "Purch Line Desc. 2 Mgmt NAL"
 {
     Permissions = tabledata "G/L Entry" = RM;
 

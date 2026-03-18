@@ -1,4 +1,4 @@
-tableextension 50103 "GL Entry NAL" extends "G/L Entry"
+tableextension 50103 "Invoice Posting Buffer Ext" extends "Invoice Posting Buffer"
 {
     fields
     {

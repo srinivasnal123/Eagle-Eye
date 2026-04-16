@@ -2,7 +2,7 @@
   "id": "808223da-ebe0-4848-8114-836563241004",
   "name": "Custom Bank Deposit",
   "publisher": "Nalashaa Solutions",
-  "version": "1.0.0.15",
+  "version": "1.0.0.13",
   "brief": "",
   "description": "",
   "privacyStatement": "",
@@ -22,6 +22,12 @@
       "name": "AddPurchLoadNo",
       "publisher": "Nalashaa",
       "version": "1.0.0.0"
+    },
+    {
+      "id": "7a129d06-5fd6-4fb6-b82b-0bf539c779d0",
+      "name": "_Exclude_Bank Deposits",
+      "version": "27.0.0.0",
+      "publisher": "Microsoft"
     }
   ],
   "screenshots": [],

@@ -62,8 +62,8 @@ codeunit 50102 "Import Purchase Invoices NAL"
             PurchaseLine.Validate(Type, PurchaseLine.Type::"G/L Account");
             PurchaseLine.Validate("No.", PurchasePayablesSetup."G/L Account No. NAL");
             PurchaseLine.Validate(Quantity, 1);
-            PurchaseLine.Description := GetValueAsCell(RowNo, 1);
-            PurchaseLine."Description 2" := GetValueAsCell(RowNo, 13);
+            PurchaseLine.Description := GetValueAsCell(RowNo, 14);
+            PurchaseLine."Description 2" := GetValueAsCell(RowNo, 1);
             UnitCostText := GetValueAsCell(RowNo, 4);
             if not Evaluate(PurchaseLine."Direct Unit Cost", UnitCostText) then begin
                 UnitCostText := CopyStr(GetValueAsCell(RowNo, 4), 2, strlen(UnitCostText));

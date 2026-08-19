@@ -1,0 +1,25 @@
+{
+  "id": "0e458b72-17f3-49d0-b2b0-27f312eac934",
+  "name": "MPA Posted Purchase Invoice Lines",
+  "publisher": "MPA Consulting Services",
+  "version": "1.0.0.3",
+  "runtime": "16.1",
+  "target": "Cloud",
+  "application": "27.5.0.0",
+  "platform": "27.0.53200.0",
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true,
+    "applyToDevExtension": false
+  },
+  "features": [
+    "NOIMPLICITWITH"
+  ],
+  "idRanges": [
+    {
+      "from": 50100,
+      "to": 50149
+    }
+  ]
+}

@@ -64,6 +64,12 @@ codeunit 50102 "Import Purchase Invoices NAL"
             PurchaseLine.Validate(Quantity, 1);
             PurchaseLine.Description := GetValueAsCell(RowNo, 14);
             PurchaseLine."Description 2" := GetValueAsCell(RowNo, 1);
+            //To parse trip No.
+            if STRPOS(PurchaseLine."Description 2", 'Trip:') > 0 then begin
+                PurchaseLine."Trip No." := CopyStr(purchaseline."Description 2", StrPos(purchaseline."Description 2", 'Trip: ') + StrLen('Trip: '), 7);
+                PurchaseLine."Description 2" := CopyStr(purchaseline."Description 2", 1, StrPos(purchaseline."Description 2", '; Trip:') - 1);
+            end;
+            //To parse trip No.
             UnitCostText := GetValueAsCell(RowNo, 4);
             if not Evaluate(PurchaseLine."Direct Unit Cost", UnitCostText) then begin
                 UnitCostText := CopyStr(GetValueAsCell(RowNo, 4), 2, strlen(UnitCostText));
